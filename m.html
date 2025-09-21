@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monglchari Mission Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+      /* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Exo 2', sans-serif;
+    background: #0f172a;
+    color: #f8fafc;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Particle Background */
+#particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: 
+        radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+/* Navigation */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #334155;
+    z-index: 1000;
+    padding: 1rem 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-icon {
+    font-size: 2rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.logo-text h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0ea5e9;
+    text-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+}
+
+.logo-text p {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-top: -0.25rem;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #0ea5e9;
+    background: rgba(14, 165, 233, 0.1);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: #0ea5e9;
+    border-radius: 50%;
+}
+
+/* Main Content */
+.main-content {
+    margin-top: 80px;
+    padding: 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e293b 75%, #0f172a 100%);
+    border: 1px solid #334155;
+    border-radius: 1rem;
+    padding: 3rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
+}
+
+.hero-description {
+    font-size: 1.125rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 600px;
+}
+
+.hero-features {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #cbd5e1;
+    font-size: 0.875rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid #334155;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(14, 165, 233, 0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    border-color: #0ea5e9;
+    box-shadow: 0 10px 25px rgba(14, 165, 233, 0.1);
+}
+
+.stat-card:hover::before {
+    opacity: 1;
+}
+
+.stat-icon {
+    font-size: 2rem;
+    padding: 0.75rem;
+    background: rgba(14, 165, 233, 0.1);
+    border: 1px solid rgba(14, 165, 233, 0.2);
+    border-radius: 0.5rem;
+}
+
+.stat-content h3 {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.stat-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 0.25rem;
+}
+
+.stat-change {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.stat-change.positive {
+    color: #10b981;
+}
+
+/* Recent Logs */
+.recent-logs {
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid #334155;
+    border-radius: 0.75rem;
+    padding: 2rem;
+}
+
+.recent-logs h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #f8fafc;
+}
+
+.logs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.log-item {
+    background: rgba(30, 41, 59, 0.3);
+    border: 1px solid #334155;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.log-item:hover {
+    background: rgba(30, 41, 59, 0.5);
+    border-color: #475569;
+}
+
+.log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.log-category {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.log-category.assembly { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+.log-category.testing { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+.log-category.analysis { background: rgba(168, 85, 247, 0.2); color: #a78bfa; }
+.log-category.deployment { background: rgba(251, 146, 60, 0.2); color: #fb923c; }
+
+.log-date {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+.log-worker {
+    font-weight: 500;
+    color: #cbd5e1;
+    margin-bottom: 0.5rem;
+}
+
+.log-description {
+    color: #94a3b8;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+/* Page Headers */
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    color: #f8fafc;
+    margin-bottom: 0.5rem;
+}
+
+.page-header p {
+    color: #94a3b8;
+    font-size: 1.125rem;
+}
+
+/* Forms */
+.log-form {
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid #334155;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    max-width: 800px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #cbd5e1;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    color: #f8fafc;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.file-upload {
+    border: 2px dashed #334155;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.file-upload:hover {
+    border-color: #0ea5e9;
+    background: rgba(14, 165, 233, 0.05);
+}
+
+.file-upload input {
+    display: none;
+}
+
+.file-upload-text span {
+    display: block;
+    font-weight: 500;
+    color: #cbd5e1;
+    margin-bottom: 0.5rem;
+}
+
+.file-upload-text p {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #334155;
+}
+
+/* Buttons */
+.btn-primary,
+.btn-secondary {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0284c7, #0ea5e9);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3);
+}
+
+.btn-secondary {
+    background: #334155;
+    color: #cbd5e1;
+    border: 1px solid #475569;
+}
+
+.btn-secondary:hover {
+    background: #475569;
+    border-color: #64748b;
+}
+
+/* Filters */
+.filters {
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid #334155;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.filter-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 1rem;
+    align-items: end;
+}
+
+.filter-input,
+.filter-select {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    color: #f8fafc;
+    font-size: 0.875rem;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+    outline: none;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+/* Table */
+.logs-table {
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid #334155;
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2fr 1fr 1fr;
+    background: #1e293b;
+    padding: 1rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    font-size: 0.875rem;
+}
+
+.table-body {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2fr 1fr 1fr;
+    padding: 1rem;
+    border-bottom: 1px solid #334155;
+    transition: background 0.3s ease;
+}
+
+.table-row:hover {
+    background: rgba(30, 41, 59, 0.3);
+}
+
+.table-cell {
+    color: #cbd5e1;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+}
+
+.table-cell .status-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-badge.in-progress { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+.status-badge.completed { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+.status-badge.on-hold { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+.table-cell .action-btn {
+    background: none;
+    border: 1px solid #334155;
+    color: #94a3b8;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 0.75rem;
+    margin-right: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.table-cell .action-btn:hover {
+    border-color: #0ea5e9;
+    color: #0ea5e9;
+}
+
+/* Analytics */
+.analytics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.chart-container {
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid #334155;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+}
+
+.chart-container.full-width {
+    grid-column: 1 / -1;
+}
+
+.chart-container h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #f8fafc;
+}
+
+.chart-container canvas {
+    max-height: 300px;
+}
+
+.insights {
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid #334155;
+    border-radius: 0.75rem;
+    padding: 2rem;
+}
+
+.insights h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #f8fafc;
+}
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.insight-card {
+    background: rgba(30, 41, 59, 0.3);
+    border: 1px solid #334155;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.insight-card h4 {
+    font-size: 0.875rem;
+    color: #0ea5e9;
+    margin-bottom: 0.5rem;
+}
+
+.insight-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 0.25rem;
+}
+
+.insight-detail {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+/* Toast Notifications */
+#toast-container {
+    position: fixed;
+    top: 100px;
+    right: 2rem;
+    z-index: 2000;
+}
+
+.toast {
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid #334155;
+    border-radius: 0.5rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #f8fafc;
+    font-size: 0.875rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease-out;
+    max-width: 300px;
+}
+
+.toast.success {
+    border-left: 4px solid #10b981;
+}
+
+.toast.error {
+    border-left: 4px solid #ef4444;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+    
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .table-header,
+    .table-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-features {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #0ea5e9, #38bdf8);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #0284c7, #0ea5e9);
+}
+
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">🚀</div>
+                <div class="logo-text">
+                    <h1>Monglchari</h1>
+                    <p>Mission Tracker</p>
+                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="#dashboard" class="nav-link active" data-page="dashboard">Dashboard</a>
+                <a href="#log-entry" class="nav-link" data-page="log-entry">Log Entry</a>
+                <a href="#view-logs" class="nav-link" data-page="view-logs">View Logs</a>
+                <a href="#analytics" class="nav-link" data-page="analytics">Analytics</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page active">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-content">
+                    <div class="hero-icon">🚀</div>
+                    <h1 class="hero-title">Monglchari Mission Tracker</h1>
+                    <p class="hero-subtitle">Tracking the Red Frontier</p>
+                    <p class="hero-description">
+                        Monitor, analyze, and optimize Mars rover engineering missions with real-time 
+                        data tracking and comprehensive analytics. Every mission brings us closer to 
+                        understanding the Red Planet.
+                    </p>
+                    <div class="hero-features">
+                        <div class="feature-item">✨ Real-time monitoring</div>
+                        <div class="feature-item">📊 Advanced analytics</div>
+                        <div class="feature-item">🎯 Mission optimization</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Cards -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🚀</div>
+                    <div class="stat-content">
+                        <h3>Total Missions</h3>
+                        <div class="stat-number" id="total-missions">127</div>
+                        <div class="stat-change positive">+12%</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-content">
+                        <h3>Active Workers</h3>
+                        <div class="stat-number" id="active-workers">8</div>
+                        <div class="stat-change positive">+3</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📤</div>
+                    <div class="stat-content">
+                        <h3>Recent Uploads</h3>
+                        <div class="stat-number" id="recent-uploads">24</div>
+                        <div class="stat-change positive">+8%</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-content">
+                        <h3>Success Rate</h3>
+                        <div class="stat-number" id="success-rate">94.2%</div>
+                        <div class="stat-change positive">+2.1%</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Logs -->
+            <section class="recent-logs">
+                <h2>Recent Mission Logs</h2>
+                <div class="logs-container" id="recent-logs-container">
+                    <!-- Logs will be populated by JavaScript -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Log Entry Page -->
+        <div id="log-entry" class="page">
+            <div class="page-header">
+                <h1>New Mission Log</h1>
+                <p>Record details of your Mars rover engineering work</p>
+            </div>
+            
+            <form class="log-form" id="log-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date">📅 Date *</label>
+                        <input type="date" id="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="worker">👤 Worker Name *</label>
+                        <input type="text" id="worker" required placeholder="Enter worker name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description *</label>
+                    <textarea id="description" required placeholder="Describe the work performed, findings, and any important details..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="category">🏷️ Category *</label>
+                        <select id="category" required>
+                            <option value="Rover Assembly">Rover Assembly</option>
+                            <option value="Testing">Testing</option>
+                            <option value="Data Analysis">Data Analysis</option>
+                            <option value="Field Deployment">Field Deployment</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Research">Research</option>
+                            <option value="Communication">Communication</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status">
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                            <option value="On Hold">On Hold</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="hours">⏰ Hours Worked</label>
+                        <input type="number" id="hours" min="0" max="24" step="0.5" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="priority">Priority</label>
+                        <select id="priority">
+                            <option value="Low">Low</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="High">High</option>
+                            <option value="Critical">Critical</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="location">📍 Location</label>
+                        <input type="text" id="location" placeholder="Mars Base Alpha">
+                    </div>
+                    <div class="form-group">
+                        <label for="tags">Tags</label>
+                        <input type="text" id="tags" placeholder="assembly, testing, rover (comma separated)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="images">📷 Images (Optional)</label>
+                    <div class="file-upload">
+                        <input type="file" id="images" multiple accept="image/*">
+                        <div class="file-upload-text">
+                            <span>📁 Choose Images</span>
+                            <p>PNG, JPG up to 5MB each</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="showPage('dashboard')">Cancel</button>
+                    <button type="submit" class="btn-primary">Create Mission Log</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- View Logs Page -->
+        <div id="view-logs" class="page">
+            <div class="page-header">
+                <h1>Mission Logs</h1>
+                <p>Browse and manage all mission logs</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+                <div class="filter-row">
+                    <input type="text" id="search" placeholder="🔍 Search logs..." class="filter-input">
+                    <input type="text" id="worker-filter" placeholder="👤 Filter by worker..." class="filter-input">
+                    <select id="category-filter" class="filter-select">
+                        <option value="">All Categories</option>
+                        <option value="Rover Assembly">Rover Assembly</option>
+                        <option value="Testing">Testing</option>
+                        <option value="Data Analysis">Data Analysis</option>
+                        <option value="Field Deployment">Field Deployment</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Research">Research</option>
+                        <option value="Communication">Communication</option>
+                    </select>
+                    <button class="btn-primary" onclick="applyFilters()">Apply Filters</button>
+                </div>
+            </div>
+
+            <!-- Logs Table -->
+            <div class="logs-table">
+                <div class="table-header">
+                    <div class="table-cell">Date</div>
+                    <div class="table-cell">Worker</div>
+                    <div class="table-cell">Category</div>
+                    <div class="table-cell">Description</div>
+                    <div class="table-cell">Status</div>
+                    <div class="table-cell">Actions</div>
+                </div>
+                <div class="table-body" id="logs-table-body">
+                    <!-- Logs will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Page -->
+        <div id="analytics" class="page">
+            <div class="page-header">
+                <h1>Mission Analytics</h1>
+                <p>Comprehensive insights into mission performance and productivity</p>
+            </div>
+
+            <!-- Analytics Charts -->
+            <div class="analytics-grid">
+                <div class="chart-container">
+                    <h3>Worker Productivity</h3>
+                    <canvas id="worker-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Category Distribution</h3>
+                    <canvas id="category-chart"></canvas>
+                </div>
+                <div class="chart-container full-width">
+                    <h3>Activity Timeline</h3>
+                    <canvas id="timeline-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Insights -->
+            <div class="insights">
+                <h3>Mission Insights</h3>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <h4>Top Performing Category</h4>
+                        <div class="insight-value">Rover Assembly</div>
+                        <div class="insight-detail">45 missions completed</div>
+                    </div>
+                    <div class="insight-card">
+                        <h4>Most Active Worker</h4>
+                        <div class="insight-value">Dr. Sarah Chen</div>
+                        <div class="insight-detail">23 missions logged</div>
+                    </div>
+                    <div class="insight-card">
+                        <h4>Average Mission Duration</h4>
+                        <div class="insight-value">6.2h</div>
+                        <div class="insight-detail">Per mission average</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
